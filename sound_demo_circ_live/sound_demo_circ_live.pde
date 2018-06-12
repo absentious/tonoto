@@ -8,6 +8,8 @@ FFT fft;
 
 int mode = 3;
 int invmode = 1;
+int ssize = 12;
+int dim = 1200;
 
 int[][] colo=new int[300][3];
 int row = 0;
@@ -15,7 +17,7 @@ float size = 0;
 float szint = 0;
 float dispsize = 0;
 
-int npts = 200;
+int npts = 500;
 int wait = 1000/npts;
 int circrad = 50;
 int ir = 0;
@@ -48,7 +50,7 @@ float mincol = 30;
  
 void setup()
 {
-  size(1000,1000);
+  size(1200,1200);
    //fullScreen();
  
  
@@ -78,11 +80,11 @@ void draw()
     ir++;
     theta = 0;
     sample = 0;
-    if (ir >= 10) {
+    if (ir >= ssize) {
       ir = 0;
       ic++;
     }
-    if(ic >= 10) {
+    if(ic >= ssize) {
       background(mincol);
       if (invmode == 1) {
         background(255-mincol);
@@ -124,11 +126,17 @@ void draw()
   else if (mode == 3) {
     amplag = ampmod + log(pitch)*5;
     lagtime = 7-log(pitch);
-    strokeWeight(1.5*lagtime-1);
+    float twt = 1.5*lagtime-1;
+    if (twt <= 0.01) {twt = 0.01;}
+    strokeWeight(twt);
   }
   thetalag = theta - lagtime*2*PI/npts;
-  println(amplag + "--" + lagtime);
   float amp = circrad-30+5*logvarc;
+  if (amp <0-circrad/2) {
+    amp = (float)(0-circrad/2);
+    println("*");
+  }
+  //println(amplag + "--" + lagtime + "--" + amp + "--" + (float)circrad*1.3);
   linecolor = logmean * 25;
   if (linecolor < mincol) {
     linecolor = mincol;
