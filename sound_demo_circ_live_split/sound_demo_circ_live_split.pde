@@ -99,6 +99,9 @@ void draw()
   cx = (2*ir+1)*2*circrad;
   cy = (2*ic+1)*2*circrad;
   
+  cx = 2*circrad + (sample + ir*npts);
+  cy = 2*circrad + (ic*npts);
+  
   fft.forward(input.mix);
   for(int i = 0; i < snum; i++) {
     samps[i] = fft.getBand(i)+.001;
@@ -177,7 +180,7 @@ void draw()
   else if (mode >= 2) {
     fill(linecolor/2);
     stroke(linecolor/2);
-    line(cx,cy,cx - amphi * cos(theta),cy + amphi*sin(theta));
+    //line(cx,cy,cx - amphi * cos(theta),cy + amphi*sin(theta));
     fill(linecolor);
     stroke(linecolor);
     line(cx- 2*amplag * cos(thetalag),cy + 2*amplag*sin(thetalag),cx - 2*amp * cos(theta),cy + 2*amp*sin(theta)); //fukk
