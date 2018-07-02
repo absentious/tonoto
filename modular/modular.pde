@@ -7,7 +7,7 @@ AudioInput input;
 FFT fft;
 
 int size = 512;
-int npts = 200;
+int npts = 100;
 
 int ir = 0;
 int ic = 0;
@@ -61,7 +61,7 @@ int ssize = 1;
 
 void setup()
 {
-  size(400,400);
+  size(500,500);
    //fullScreen();
  
  
@@ -91,8 +91,8 @@ void draw()
       }
       
     }
-    cx = (2*ir+1)*4*circrad;
-    cy = (2*ic+1)*4*circrad;
+    cx = (2*ir+1)*4*circrad+50;
+    cy = (2*ic+1)*4*circrad+50;
     fft.forward(input.mix);
     theta = theta + 2*PI/npts;
     float params[] = getParams(fft, theta);
@@ -112,21 +112,22 @@ void draw()
     int vw = 2000;
     background(mincol);
     drawtick(vw);
+    drawtick2(vw);
     
     
     
-    
+    theta2 = theta2 - 2*PI/npts;
     float params2[] = getParams(fft, theta2);
-    cx1[sample] = params[0];
-    cy1[sample] = params[1];
-    cx2[sample] = params[2];
-    cy2[sample] = params[3];
+    cx1[sample] = params2[0];
+    cy1[sample] = params2[1];
+    cx2[sample] = params2[2];
+    cy2[sample] = params2[3];
     cdx1[sample] = 0;
     cdy1[sample] = 0;
     cdx2[sample] = 0;
     cdy2[sample] = 0;
-    cco[sample] = params[4];
-    csw[sample] = params[5];
+    cco[sample] = params2[4];
+    csw[sample] = params2[5];
     
     
     
@@ -160,6 +161,12 @@ void draw()
     
     
     sample++;
+    filter(BLUR, 8);
+    filter(ERODE);
+    filter(POSTERIZE, 2);
+    filter(DILATE);
+    filter(DILATE);
+    //saveFrame();
 }
 
 
